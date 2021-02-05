@@ -9,7 +9,7 @@ namespace PlayBall.GroupManagement.Web.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            return Content("Helloooo!");
+            return View();
         }
     }
 }
