@@ -2,7 +2,7 @@ namespace PlayBall.GroupManagement.Web.Models
 {
     public class GroupViewModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
     }
 }
