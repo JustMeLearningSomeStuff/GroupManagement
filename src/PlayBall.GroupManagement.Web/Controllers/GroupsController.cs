@@ -1,51 +1,47 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using PlayBall.GroupManagement.Business.Services;
+using PlayBall.GroupManagement.Web.Mappings;
 using PlayBall.GroupManagement.Web.Models;
 
 namespace PlayBall.GroupManagement.Web.Controllers
 {
     [Route("groups")]
-    public class GroupsController : Controller {
-        private static List<GroupViewModel> groups = new List<GroupViewModel>
-        {
-            new GroupViewModel
-            {
-                Id = 1,
-                Name = "First Group"
-            }
-        };
-        private static long currentGroupId = 1;
+    public class GroupsController : Controller 
+    {
+        private readonly IGroupService _groupService;
+
+        public GroupsController(IGroupService groupService) => _groupService = groupService;
 
         [HttpGet]
         [Route("")]
-        public IActionResult Index() {
-            return View(groups);
+        public IActionResult Index() 
+        {
+            return View(_groupService.GetAll().ToViewModel());
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult Details(long id) {
-            var group = groups.SingleOrDefault(x => x.Id == id);
+        public IActionResult Details(long id) 
+        {
+            var group = _groupService.GetById(id);
 
             if (group is null) {
                 return NotFound();
             }
 
-            return View(group);
+            return View(group.ToViewModel());
         }
 
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(long id, GroupViewModel model) {
-            var group = groups.SingleOrDefault(x => x.Id == id);
+        public IActionResult Edit(long id, GroupViewModel model) 
+        {
+            var group = _groupService.Update(model.ToServiceModel());
 
             if (group is null) {
                 return NotFound();
             }
-
-            group.Name = model.Name;
 
             return RedirectToAction("Index");
         }
@@ -61,8 +57,7 @@ namespace PlayBall.GroupManagement.Web.Controllers
         [Route("")]
         public IActionResult CreateGroup(GroupViewModel model)
         {
-            model.Id = ++currentGroupId;
-            groups.Add(model);
+            _groupService.Add(model.ToServiceModel());
 
             return RedirectToAction("Index");
         }

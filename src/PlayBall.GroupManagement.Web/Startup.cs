@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PlayBall.GroupManagement.Business.Services;
+using PlayBall.GroupManagement.Web.Services;
 
 namespace PlayBall.GroupManagement.Web
 {
@@ -18,6 +20,7 @@ namespace PlayBall.GroupManagement.Web
         {
             services.AddMvc();
             services.AddControllers();
+            services.AddSingleton<IGroupService, InMemoryGroupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
