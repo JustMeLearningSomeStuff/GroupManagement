@@ -1,6 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlayBall.GroupManagement.Business.Impl\PlayBall.GroupManagement.Business.Impl.csproj" />
     <ProjectReference Include="..\PlayBall.GroupManagement.Business\PlayBall.GroupManagement.Business.csproj" />
   </ItemGroup>
 

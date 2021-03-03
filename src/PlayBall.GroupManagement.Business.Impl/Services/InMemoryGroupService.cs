@@ -1,3 +1,8 @@
+using PlayBall.GroupManagement.Business.Models;
+using PlayBall.GroupManagement.Business.Services;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace PlayBall.GroupManagement.Business.Impl.Services
 {
     public class InMemoryGroupService : IGroupService
@@ -5,33 +10,34 @@ namespace PlayBall.GroupManagement.Business.Impl.Services
         private readonly List<Group> _groups = new List<Group>();
         private long _currentId = 0;
 
-        IReadOnlyCollection<Group> GetAll()
+        public IReadOnlyCollection<Group> GetAll()
         {
             return _groups.AsReadOnly();
         }
 
-        Group GetById(long id)
+        public Group GetById(long id)
         {
             return _groups.SingleOrDefault(g => g.Id == id);
         }
 
-        Group Update(Group model)
+        public Group Update(Group group)
         {
-            var toUpdate = _groups.SingleOrDefault(g => g.Id == id);
+            var toUpdate = _groups.SingleOrDefault(g => g.Id == group.Id);
+
             if (toUpdate == null) {
                 return null;
             }
 
-            toUpdate.Name = model.Name;
+            toUpdate.Name = group.Name;
             return toUpdate;
         }
 
-        Group Add(Group model)
+        public Group Add(Group group)
         {
-            model.Id = ++_currentId;
-            _groups.Add(model);
+            group.Id = ++_currentId;
+            _groups.Add(group);
 
-            return model;
+            return group;
         }
     }
 }
